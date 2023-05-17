@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pet_care/registration_page.dart';
 
 import 'welcome_page_component.dart';
 
@@ -38,27 +39,53 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            TextButton(onPressed: () {}, child: Text('Sign In')),
+            Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(onPressed: () {}, child: Text('Sign In'))),
             Expanded(
               child: PageView.builder(
+                controller: _pageViewController,
+                itemCount: slides.length,
                 onPageChanged: (value) {
                   setState(() {
                     _pageIndex = value;
                   });
                 },
-                itemCount: slides.length,
                 itemBuilder: (context, index) {
                   return onboard_slides[index];
                 },
               ),
             ),
-            FilledButton(
-              onPressed: () {},
-              child: Text('Next'),
-              style: FilledButton.styleFrom(
-
+            SizedBox(
+              height: 50,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: FilledButton(
+                onPressed: () {
+                  if (_pageViewController.page != 2) {
+                    _pageViewController.animateToPage(
+                        _pageViewController.page!.toInt() + 1,
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.ease);
+                  } else {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RegistrationPage(),
+                        ),
+                            (route) => false);
+                  }
+                },
+                child: Text(_pageIndex == 2 ? 'Start' : 'Next'),
+                style: FilledButton.styleFrom(
+                  fixedSize: Size.fromWidth(MediaQuery.of(context).size.width)
+                ),
               ),
             ),
+            SizedBox(
+              height: 100,
+            )
           ],
         ),
       ),
