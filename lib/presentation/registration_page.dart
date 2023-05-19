@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pet_care/presentation/sign_in_page.dart';
+
+import 'constant/my_colors.dart';
 
 class RegistrationPage extends StatelessWidget {
   const RegistrationPage({Key? key}) : super(key: key);
@@ -9,7 +12,7 @@ class RegistrationPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             gradient: LinearGradient(begin: Alignment.topCenter, stops: [
           0.2,
           0.8
@@ -24,7 +27,7 @@ class RegistrationPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               RichText(
-                text: TextSpan(
+                text: const TextSpan(
                     text: 'Welcome to ',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -36,16 +39,16 @@ class RegistrationPage extends StatelessWidget {
                           style: TextStyle(color: Color(0xFFFFCF6F)))
                     ]),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               TextButton.icon(
                 onPressed: () {},
-                icon: Icon(Icons.facebook),
+                icon: const FaIcon(FontAwesomeIcons.squareFacebook, color: MyColors.violet,),
                 label: RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     text: 'Continue with ',
-                    style: TextStyle(color: Color(0xFF4552CB), fontSize: 16),
+                    style: TextStyle(color: MyColors.violet, fontSize: 16),
                     children: [
                       TextSpan(
                           text: 'Facebook',
@@ -59,16 +62,16 @@ class RegistrationPage extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30))),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               TextButton.icon(
                 onPressed: () {},
-                icon: Icon(Icons.g_mobiledata),
+                icon: const FaIcon(FontAwesomeIcons.google,color: MyColors.violet),
                 label: RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     text: 'Continue with ',
-                    style: TextStyle(color: Color(0xFF4552CB), fontSize: 16),
+                    style: TextStyle(color: MyColors.violet, fontSize: 16),
                     children: [
                       TextSpan(
                           text: 'Google',
@@ -82,13 +85,13 @@ class RegistrationPage extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30))),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               TextButton(
                 onPressed: () {},
                 child: RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     text: 'Continue with ',
                     style: TextStyle(color: Colors.white, fontSize: 16),
                     children: [
@@ -102,16 +105,16 @@ class RegistrationPage extends StatelessWidget {
                     backgroundColor: Colors.transparent,
                     fixedSize: Size(MediaQuery.of(context).size.width, 45),
                     shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Colors.white),
+                        side: const BorderSide(color: Colors.white),
                         borderRadius: BorderRadius.circular(30))),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 70,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'Already have an account? ',
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
@@ -124,7 +127,7 @@ class RegistrationPage extends StatelessWidget {
                           ),
                               (route) => false);
                     },
-                    child: Text('Sign In',
+                    child: const Text('Sign In',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,

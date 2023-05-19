@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pet_care/presentation/sign_in_page.dart';
 
+import 'presentation/constant/my_colors.dart';
 import 'presentation/onboarding/welcome_page.dart';
 
 void main() {
@@ -15,13 +15,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.light(
-          primary: Color(0xFF4552CB)
+          primary: MyColors.violet
         )
       ),
-      home: SignInPage(),
+      home: WelcomeScreen(),
     );
   }
 }

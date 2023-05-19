@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pet_care/presentation/navigation/home_page.dart';
+import 'package:pet_care/presentation/navigation/nav_page.dart';
+import 'package:pet_care/presentation/registration_page.dart';
 
 import 'component/my_text_field.dart';
+import 'constant/my_colors.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -17,6 +22,7 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Stack(
@@ -82,15 +88,19 @@ class _SignInPageState extends State<SignInPage> {
                               isObscureText: isObsecure,
                               trailingIcon: isObsecure
                                   ? IconButton(
-                                      icon: const Icon(Icons.visibility_off_outlined),
+                                      icon: const Icon(
+                                          Icons.visibility_off_outlined),
                                       onPressed: () {
-                                        setState(() => isObsecure = !isObsecure);
+                                        setState(
+                                            () => isObsecure = !isObsecure);
                                       },
                                     )
                                   : IconButton(
-                                      icon: const Icon(Icons.visibility_outlined),
+                                      icon:
+                                          const Icon(Icons.visibility_outlined),
                                       onPressed: () {
-                                        setState(() => isObsecure = !isObsecure);
+                                        setState(
+                                            () => isObsecure = !isObsecure);
                                       },
                                     ),
                               onchanged: (value) => passwordText,
@@ -99,11 +109,19 @@ class _SignInPageState extends State<SignInPage> {
                               alignment: Alignment.centerRight,
                               child: TextButton(
                                 onPressed: () {},
-                                child: const Text('Do not remember the password?'),
+                                child:
+                                    const Text('Do not remember the password?'),
                               ),
                             ),
                             FilledButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => NavPage(),
+                                  ),
+                                );
+                              },
                               child: const Text('Sign In'),
                               style: FilledButton.styleFrom(
                                   fixedSize: Size.fromWidth(
@@ -120,29 +138,89 @@ class _SignInPageState extends State<SignInPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Expanded(child: Container(height: 2,color: Color(0xFFF0F0F8),)),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      Expanded(
+                          child: Container(
+                        height: 2,
+                        color: const Color(0xFFF0F0F8),
+                      )),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
                         child: Text('or continue with'),
                       ),
-                      Expanded(child: Container(height: 2,color: Color(0xFFF0F0F8),)),
+                      Expanded(
+                          child: Container(
+                        height: 2,
+                        color: const Color(0xFFF0F0F8),
+                      )),
                     ],
                   ),
+                  const SizedBox(
+                    height: 40,
+                  ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
-                        child: IconButton(onPressed: () {
-
-                        }, icon: Icon(Icons.facebook,color: Colors.lightBlue,size: 100,)),
+                      CircleAvatar(
+                        radius: 30,
+                        backgroundColor: const Color(0xFF3D5C98),
+                        child: IconButton(
+                            onPressed: () {},
+                            icon: const FaIcon(
+                              FontAwesomeIcons.facebookF,
+                              color: Colors.white,
+                            )),
                       ),
-                      Expanded(
-                        child: IconButton(onPressed: () {
-
-                        }, icon: Icon(Icons.facebook,color: Colors.lightBlue,size: 100)),
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      Container(
+                        color: const Color(0xFFEF403B),
+                        // radius: 30,
+                        child: IconButton(
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                            ),
+                            onPressed: () {},
+                            icon: const FaIcon(
+                              FontAwesomeIcons.google,
+                              color: Colors.white,
+                            )),
                       )
                     ],
-                  )
+                  ),
+                  const Expanded(
+                    child: SizedBox(
+                      height: 40,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Don\'t have account yet? ',
+                        style: TextStyle(color: Colors.black, fontSize: 16),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const RegistrationPage(),
+                              ),
+                              (route) => false);
+                        },
+                        child: const Text('Registration',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: MyColors.violet,
+                              fontSize: 16,
+                            )),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
                 ],
               ),
             ),
@@ -152,4 +230,3 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 }
-
