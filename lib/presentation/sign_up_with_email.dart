@@ -1,23 +1,23 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pet_care/presentation/navigation/home_page.dart';
-import 'package:pet_care/presentation/navigation/nav_page.dart';
-import 'package:pet_care/presentation/registration_page.dart';
+import 'package:pet_care/presentation/component/my_text_field.dart';
+import 'package:pet_care/presentation/sign_in_page.dart';
 
-import 'component/my_text_field.dart';
 import 'constant/my_colors.dart';
 
-class SignInPage extends StatefulWidget {
+class SignUpWithEmailPage extends StatefulWidget {
   @override
-  State<SignInPage> createState() => _SignInPageState();
+  State<SignUpWithEmailPage> createState() => _SignUpWithEmailPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
   bool isObsecure = true;
-
+  String? fullNameText;
   String? emailText;
-
   String? passwordText;
+  bool _isTermsChecked = false;
+  bool? _isNewsLetterChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class _SignInPageState extends State<SignInPage> {
                     },
                   ),
                   const Text(
-                    'Sign In',
+                    'Registration',
                     style: TextStyle(
                       fontSize: 34,
                       fontWeight: FontWeight.bold,
@@ -75,9 +75,18 @@ class _SignInPageState extends State<SignInPage> {
                       child: Form(
                         child: Column(
                           children: [
-                            const myTextField(
+                            myTextField(
+                              label: 'Full name',
+                              textInputType: TextInputType.emailAddress,
+                              onchanged: (value) => fullNameText,
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            myTextField(
                               label: 'Email',
                               textInputType: TextInputType.emailAddress,
+                              onchanged: (value) => emailText,
                             ),
                             const SizedBox(
                               height: 16,
@@ -105,24 +114,48 @@ class _SignInPageState extends State<SignInPage> {
                                     ),
                               onchanged: (value) => passwordText,
                             ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: TextButton(
-                                onPressed: () {},
-                                child:
-                                    const Text('Do not remember the password?'),
+                            CheckboxListTile(
+                              title: RichText(
+                                text: TextSpan(
+                                  text: 'I agree with ',
+                                  style: TextStyle(
+                                    color: Colors.black
+                                  ),
+                                  children: [
+                                    TextSpan(text: 'the rules',
+                                        style: TextStyle(
+                                          color: MyColors.violet,
+                                          decoration: TextDecoration.underline
+                                        ),
+                                        recognizer: TapGestureRecognizer()..onTap = (){
+
+                                    })
+                                  ]
+                                ),
                               ),
+                              value: _isTermsChecked,
+                              controlAffinity: ListTileControlAffinity.leading,
+                              onChanged: (value) {
+                                setState(() {
+                                  _isTermsChecked = value!;
+                                });
+                              },
+                            ),
+                            CheckboxListTile(
+                              title: Text('I do not want to receive newsletter'),
+                              value: _isNewsLetterChecked,
+                              controlAffinity: ListTileControlAffinity.leading,
+                              onChanged: (value) {
+                                setState(() {
+                                  _isNewsLetterChecked = value!;
+                                });
+                              },
                             ),
                             FilledButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => NavPage(),
-                                  ),
-                                );
+
                               },
-                              child: const Text('Sign In'),
+                              child: const Text('Create an account'),
                               style: FilledButton.styleFrom(
                                   fixedSize: Size.fromWidth(
                                       MediaQuery.of(context).size.width)),
@@ -133,7 +166,7 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                   ),
                   const SizedBox(
-                    height: 40,
+                    height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -155,7 +188,7 @@ class _SignInPageState extends State<SignInPage> {
                     ],
                   ),
                   const SizedBox(
-                    height: 40,
+                    height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -188,16 +221,14 @@ class _SignInPageState extends State<SignInPage> {
                       )
                     ],
                   ),
-                  const Expanded(
-                    child: SizedBox(
-                      height: 40,
-                    ),
+                  const SizedBox(
+                    height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'Don\'t have account yet? ',
+                        'Already have an account? ',
                         style: TextStyle(color: Colors.black, fontSize: 16),
                       ),
                       GestureDetector(
@@ -205,11 +236,11 @@ class _SignInPageState extends State<SignInPage> {
                           Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const RegistrationPage(),
+                                builder: (context) => SignInPage(),
                               ),
                               (route) => false);
                         },
-                        child: const Text('Registration',
+                        child: const Text('Sign In',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: MyColors.violet,
@@ -219,7 +250,7 @@ class _SignInPageState extends State<SignInPage> {
                     ],
                   ),
                   const SizedBox(
-                    height: 40,
+                    height: 10,
                   ),
                 ],
               ),

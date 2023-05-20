@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pet_care/presentation/sign_in_page.dart';
+import 'package:pet_care/presentation/sign_up_with_email.dart';
 
 import 'constant/my_colors.dart';
 
@@ -89,24 +90,26 @@ class RegistrationPage extends StatelessWidget {
                 height: 30,
               ),
               TextButton(
-                onPressed: () {},
-                child: RichText(
-                  text: const TextSpan(
-                    text: 'Continue with ',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                    children: [
-                      TextSpan(
-                          text: 'Google',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                ),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpWithEmailPage(),));
+                },
                 style: TextButton.styleFrom(
                     backgroundColor: Colors.transparent,
                     fixedSize: Size(MediaQuery.of(context).size.width, 45),
                     shape: RoundedRectangleBorder(
                         side: const BorderSide(color: Colors.white),
                         borderRadius: BorderRadius.circular(30))),
+                child: RichText(
+                  text: const TextSpan(
+                    text: 'Register with ',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    children: [
+                      TextSpan(
+                          text: 'Email',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 70,
@@ -120,12 +123,12 @@ class RegistrationPage extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushAndRemoveUntil(
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => SignInPage(),
                           ),
-                              (route) => false);
+                      );
                     },
                     child: const Text('Sign In',
                         style: TextStyle(
