@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pet_care/presentation/component/my_text_field.dart';
 import 'package:pet_care/presentation/sign_in_page.dart';
 
+import '../business/authentication_helper.dart';
 import 'constant/my_colors.dart';
 
 class SignUpWithEmailPage extends StatefulWidget {
@@ -12,12 +13,25 @@ class SignUpWithEmailPage extends StatefulWidget {
 }
 
 class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
+  final _formKey = GlobalKey<FormState>();
   bool isObsecure = true;
+  bool _isLoading = false;
   String? fullNameText;
   String? emailText;
   String? passwordText;
   bool _isTermsChecked = false;
   bool? _isNewsLetterChecked = false;
+  late Authentication authentication;
+
+  @override
+  void initState() {
+    super.initState();
+    authentication = Authentication(context);
+  }
+
+  checkPassword(String password){
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +87,7 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16.0, vertical: 20),
                       child: Form(
+                        key: _formKey,
                         child: Column(
                           children: [
                             myTextField(
@@ -86,7 +101,14 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                             myTextField(
                               label: 'Email',
                               textInputType: TextInputType.emailAddress,
-                              onchanged: (value) => emailText,
+                              onchanged: (value){
+                                emailText = value;
+                              },
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your password';
+                                }
+                              },
                             ),
                             const SizedBox(
                               height: 16,
@@ -112,18 +134,24 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                                             () => isObsecure = !isObsecure);
                                       },
                                     ),
-                              onchanged: (value) => passwordText,
+                              onchanged: (value) => passwordText = value,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your password';
+                                }
+                                return null;
+                              },
                             ),
                             CheckboxListTile(
                               title: RichText(
                                 text: TextSpan(
                                   text: 'I agree with ',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.black
                                   ),
                                   children: [
                                     TextSpan(text: 'the rules',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: MyColors.violet,
                                           decoration: TextDecoration.underline
                                         ),
@@ -142,7 +170,7 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                               },
                             ),
                             CheckboxListTile(
-                              title: Text('I do not want to receive newsletter'),
+                              title: const Text('I do not want to receive newsletter'),
                               value: _isNewsLetterChecked,
                               controlAffinity: ListTileControlAffinity.leading,
                               onChanged: (value) {
@@ -152,13 +180,26 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                               },
                             ),
                             FilledButton(
-                              onPressed: () {
-
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  setState(() {
+                                    _isLoading = true;
+                                  });
+                                  bool check =
+                                      await authentication.createAnAccount(emailText!, passwordText!);
+                                  setState(() {
+                                    _isLoading = check;
+                                  });
+                                }else{
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+                                }
                               },
-                              child: const Text('Create an account'),
                               style: FilledButton.styleFrom(
                                   fixedSize: Size.fromWidth(
                                       MediaQuery.of(context).size.width)),
+                              child: const Text('Create an account'),
                             )
                           ],
                         ),
@@ -255,6 +296,18 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                 ],
               ),
             ),
+            if (_isLoading)
+              const Opacity(
+                opacity: 0.8,
+                child: ModalBarrier(
+                  dismissible: false,
+                  color: Colors.black12,
+                ),
+              ),
+            if (_isLoading)
+              const Center(
+                child: CircularProgressIndicator(),
+              )
           ],
         ),
       ),

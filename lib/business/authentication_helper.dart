@@ -1,14 +1,43 @@
+import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class Authentication{
-  final supabase = Supabase.instance.client;
+import '../presentation/navigation/home_page.dart';
 
-  createAnAccount() async {
-    final AuthResponse res = await supabase.auth.signUp(
-      email: 'example@email.com',
-      password: 'example-password',
-    );
-    final Session? session = res.session;
-    final User? user = res.user;
+class Authentication {
+  final supabase = Supabase.instance.client;
+  BuildContext context;
+
+  Authentication(this.context);
+
+  createAnAccount(String email, String password) async {
+    try {
+      await supabase.auth
+          .signUp(
+        email: email,
+        password: password,
+      )
+          .then((value) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomePage(),
+            ),
+            ModalRoute.withName('/'));
+      });
+      // final Session? session = res.session;
+      // final User? user = res.user;
+    } on AuthException catch (e) {
+      if (e.message == "network-request-failed") {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Network error')));
+      } else if (e.message == "email-already-in-use") {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Email already in use')));
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(e.message)));
+      }
+    }
+    return false;
   }
 }
