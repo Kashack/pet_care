@@ -20,7 +20,7 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
   String? emailText;
   String? passwordText;
   bool _isTermsChecked = false;
-  bool? _isNewsLetterChecked = false;
+  bool _isNewsLetterChecked = false;
   late Authentication authentication;
 
   @override
@@ -29,9 +29,7 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
     authentication = Authentication(context);
   }
 
-  checkPassword(String password){
-
-  }
+  checkPassword(String password) {}
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +99,7 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                             myTextField(
                               label: 'Email',
                               textInputType: TextInputType.emailAddress,
-                              onchanged: (value){
+                              onchanged: (value) {
                                 emailText = value;
                               },
                               validator: (value) {
@@ -134,7 +132,7 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                                             () => isObsecure = !isObsecure);
                                       },
                                     ),
-                              onchanged: (value) => passwordText = value,
+                              onchanged: (value) => {passwordText = value},
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter your password';
@@ -145,22 +143,20 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                             CheckboxListTile(
                               title: RichText(
                                 text: TextSpan(
-                                  text: 'I agree with ',
-                                  style: const TextStyle(
-                                    color: Colors.black
-                                  ),
-                                  children: [
-                                    TextSpan(text: 'the rules',
-                                        style: const TextStyle(
-                                          color: MyColors.violet,
-                                          decoration: TextDecoration.underline
-                                        ),
-                                        recognizer: TapGestureRecognizer()..onTap = (){
-
-                                    })
-                                  ]
-                                ),
+                                    text: 'I agree with ',
+                                    style: const TextStyle(color: Colors.black),
+                                    children: [
+                                      TextSpan(
+                                          text: 'the rules',
+                                          style: const TextStyle(
+                                              color: MyColors.violet,
+                                              decoration:
+                                                  TextDecoration.underline),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {})
+                                    ]),
                               ),
+                              checkColor: MyColors.violet,
                               value: _isTermsChecked,
                               controlAffinity: ListTileControlAffinity.leading,
                               onChanged: (value) {
@@ -170,8 +166,10 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                               },
                             ),
                             CheckboxListTile(
-                              title: const Text('I do not want to receive newsletter'),
+                              title: const Text(
+                                  'I do not want to receive newsletter'),
                               value: _isNewsLetterChecked,
+                              checkColor: MyColors.violet,
                               controlAffinity: ListTileControlAffinity.leading,
                               onChanged: (value) {
                                 setState(() {
@@ -186,17 +184,21 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                                     _isLoading = true;
                                   });
                                   bool check =
-                                      await authentication.createAnAccount(emailText!, passwordText!);
+                                      await authentication.createAnAccount(
+                                          email: emailText!,
+                                          password: passwordText!,
+                                          name: fullNameText!, newsletter: _isNewsLetterChecked);
                                   setState(() {
                                     _isLoading = check;
                                   });
-                                }else{
+                                } else {
                                   setState(() {
                                     _isLoading = false;
                                   });
                                 }
                               },
                               style: FilledButton.styleFrom(
+
                                   fixedSize: Size.fromWidth(
                                       MediaQuery.of(context).size.width)),
                               child: const Text('Create an account'),

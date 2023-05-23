@@ -45,7 +45,10 @@ class RegistrationPage extends StatelessWidget {
               ),
               TextButton.icon(
                 onPressed: () {},
-                icon: const FaIcon(FontAwesomeIcons.squareFacebook, color: MyColors.violet,),
+                icon: const FaIcon(
+                  FontAwesomeIcons.squareFacebook,
+                  color: MyColors.violet,
+                ),
                 label: RichText(
                   text: const TextSpan(
                     text: 'Continue with ',
@@ -68,7 +71,8 @@ class RegistrationPage extends StatelessWidget {
               ),
               TextButton.icon(
                 onPressed: () {},
-                icon: const FaIcon(FontAwesomeIcons.google,color: MyColors.violet),
+                icon: const FaIcon(FontAwesomeIcons.google,
+                    color: MyColors.violet),
                 label: RichText(
                   text: const TextSpan(
                     text: 'Continue with ',
@@ -91,7 +95,11 @@ class RegistrationPage extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpWithEmailPage(),));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SignUpWithEmailPage(),
+                      ));
                 },
                 style: TextButton.styleFrom(
                     backgroundColor: Colors.transparent,
@@ -124,10 +132,10 @@ class RegistrationPage extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SignInPage(),
-                          ),
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SignInPage(),
+                        ),
                       );
                     },
                     child: const Text('Sign In',

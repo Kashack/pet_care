@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pet_care/presentation/navigation/home_page.dart';
 import 'package:pet_care/presentation/navigation/nav_page.dart';
 import 'package:pet_care/presentation/registration_page.dart';
 
