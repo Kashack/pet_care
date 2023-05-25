@@ -1,11 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pet_care/presentation/component/my_text_field.dart';
 import 'package:pet_care/presentation/sign_in_page.dart';
 
 import '../business/authentication_helper.dart';
-import 'constant/my_colors.dart';
+import '../business/constant/my_colors.dart';
 
 class SignUpWithEmailPage extends StatefulWidget {
   @override
@@ -92,6 +93,11 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                               label: 'Full name',
                               textInputType: TextInputType.emailAddress,
                               onchanged: (value) => fullNameText,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Fill this field';
+                                }
+                              },
                             ),
                             const SizedBox(
                               height: 16,
@@ -104,7 +110,7 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                               },
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter your password';
+                                  return 'Please enter a valid email';
                                 }
                               },
                             ),
@@ -147,7 +153,7 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                                     style: const TextStyle(color: Colors.black),
                                     children: [
                                       TextSpan(
-                                          text: 'the rules',
+                                          text: 'the terms and conditions',
                                           style: const TextStyle(
                                               color: MyColors.violet,
                                               decoration:
@@ -156,7 +162,11 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                                             ..onTap = () {})
                                     ]),
                               ),
-                              checkColor: MyColors.violet,
+                              checkColor: Colors.white,
+                              activeColor: MyColors.violet,
+                              checkboxShape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)
+                              ),
                               value: _isTermsChecked,
                               controlAffinity: ListTileControlAffinity.leading,
                               onChanged: (value) {
@@ -167,9 +177,13 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                             ),
                             CheckboxListTile(
                               title: const Text(
-                                  'I do not want to receive newsletter'),
+                                  'I want to receive newsletter'),
                               value: _isNewsLetterChecked,
-                              checkColor: MyColors.violet,
+                              checkboxShape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)
+                              ),
+                              checkColor: Colors.white,
+                              activeColor: MyColors.violet,
                               controlAffinity: ListTileControlAffinity.leading,
                               onChanged: (value) {
                                 setState(() {
@@ -179,18 +193,24 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                             ),
                             FilledButton(
                               onPressed: () async {
+                                FocusScope.of(context).unfocus();
                                 if (_formKey.currentState!.validate()) {
-                                  setState(() {
-                                    _isLoading = true;
-                                  });
-                                  bool check =
-                                      await authentication.createAnAccount(
-                                          email: emailText!,
-                                          password: passwordText!,
-                                          name: fullNameText!, newsletter: _isNewsLetterChecked);
-                                  setState(() {
-                                    _isLoading = check;
-                                  });
+                                  if(_isTermsChecked == true){
+                                    setState(() {
+                                      _isLoading = true;
+                                    });
+                                    bool check =
+                                    await authentication.createAnAccount(
+                                      email: emailText!,
+                                      password: passwordText!,
+                                      name: fullNameText!, newsletter: _isNewsLetterChecked,);
+                                    setState(() {
+                                      _isLoading = check;
+                                    });
+                                  }else{
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(content: Text('Must agree to the terms and condition in other to register')));
+                                  }
                                 } else {
                                   setState(() {
                                     _isLoading = false;
@@ -307,8 +327,8 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                 ),
               ),
             if (_isLoading)
-              const Center(
-                child: CircularProgressIndicator(),
+                 Center(
+                child: Lottie.asset('assets/animation/pawLoading.json',height: 200,width: 200),
               )
           ],
         ),

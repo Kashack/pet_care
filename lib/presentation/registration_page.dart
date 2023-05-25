@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pet_care/business/constant/my_colors.dart';
 import 'package:pet_care/presentation/sign_in_page.dart';
 import 'package:pet_care/presentation/sign_up_with_email.dart';
-
-import 'constant/my_colors.dart';
 
 class RegistrationPage extends StatelessWidget {
   const RegistrationPage({Key? key}) : super(key: key);

@@ -8,11 +8,12 @@ class Authentication {
 
   Authentication(this.context);
 
-  createAnAccount(
-      {required String email,
-      required String password,
-      required String name,
-      required bool newsletter}) async {
+  createAnAccount({
+    required String email,
+    required String password,
+    required String name,
+    required bool newsletter,
+  }) async {
     try {
       await supabase.auth
           .signUp(
@@ -34,16 +35,8 @@ class Authentication {
       // final Session? session = res.session;
       // final User? user = res.user;
     } on AuthException catch (e) {
-      if (e.message == "network-request-failed") {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Network error')));
-      } else if (e.message == "email-already-in-use") {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Email already in use')));
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(e.message)));
-      }
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.message)));
     }
     return false;
   }

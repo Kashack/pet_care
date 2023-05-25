@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pet_care/business/constant/my_colors.dart';
 import 'package:pet_care/presentation/navigation/appointment_page.dart';
 import 'package:pet_care/presentation/navigation/explore_page.dart';
 import 'package:pet_care/presentation/navigation/home_page.dart';
 import 'package:pet_care/presentation/navigation/profile_page.dart';
-
-import '../constant/my_colors.dart';
 
 class NavPage extends StatefulWidget {
   const NavPage({Key? key}) : super(key: key);

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pet_care/business/constant/my_colors.dart';
 import 'package:pet_care/presentation/navigation/nav_page.dart';
 import 'package:pet_care/presentation/registration_page.dart';
 
 import 'component/my_text_field.dart';
-import 'constant/my_colors.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -114,6 +114,7 @@ class _SignInPageState extends State<SignInPage> {
                             ),
                             FilledButton(
                               onPressed: () {
+                                FocusScope.of(context).unfocus();
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

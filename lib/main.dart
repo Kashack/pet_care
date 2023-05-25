@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pet_care/presentation/navigation/nav_page.dart';
 import 'package:pet_care/presentation/registration_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import 'presentation/constant/database_key.dart';
-import 'presentation/constant/my_colors.dart';
+import 'business/constant/database_key.dart';
+import 'business/constant/my_colors.dart';
 import 'presentation/onboarding/welcome_page.dart';
 
 bool? initScreen = true;
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       ),
       home:  initScreen == true || initScreen == null
           ? WelcomeScreen()
-          : RegistrationPage(),
+          : NavPage(),
     );
   }
 }
