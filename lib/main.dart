@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet_care/presentation/navigation/nav_page.dart';
-import 'package:pet_care/presentation/registration_page.dart';
+import 'package:pet_care/presentation/authentication/registration_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'business/constant/database_key.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet_care/presentation/registration_page.dart';
+import 'package:pet_care/presentation/authentication/registration_page.dart';
 
 import 'welcome_page_component.dart';
 
