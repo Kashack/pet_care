@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pet_care/presentation/component/my_text_field.dart';
-import 'package:pet_care/presentation/sign_in_page.dart';
+import 'package:pet_care/presentation/authentication/sign_in_page.dart';
 
-import '../business/authentication_helper.dart';
-import '../business/constant/my_colors.dart';
+import '../../business/authentication_helper.dart';
+import '../../business/constant/my_colors.dart';
 
 class SignUpWithEmailPage extends StatefulWidget {
   @override
