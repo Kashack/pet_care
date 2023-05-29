@@ -92,11 +92,12 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                             myTextField(
                               label: 'Full name',
                               textInputType: TextInputType.emailAddress,
-                              onchanged: (value) => fullNameText,
+                              onchanged: (value) => fullNameText = value,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Fill this field';
                                 }
+                                return null;
                               },
                             ),
                             const SizedBox(
@@ -165,8 +166,7 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                               checkColor: Colors.white,
                               activeColor: MyColors.violet,
                               checkboxShape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)
-                              ),
+                                  borderRadius: BorderRadius.circular(5)),
                               value: _isTermsChecked,
                               controlAffinity: ListTileControlAffinity.leading,
                               onChanged: (value) {
@@ -176,12 +176,10 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                               },
                             ),
                             CheckboxListTile(
-                              title: const Text(
-                                  'I want to receive newsletter'),
+                              title: const Text('I want to receive newsletter'),
                               value: _isNewsLetterChecked,
                               checkboxShape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)
-                              ),
+                                  borderRadius: BorderRadius.circular(5)),
                               checkColor: Colors.white,
                               activeColor: MyColors.violet,
                               controlAffinity: ListTileControlAffinity.leading,
@@ -195,21 +193,28 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                               onPressed: () async {
                                 FocusScope.of(context).unfocus();
                                 if (_formKey.currentState!.validate()) {
-                                  if(_isTermsChecked == true){
+                                  if (_isTermsChecked == true) {
                                     setState(() {
                                       _isLoading = true;
                                     });
-                                    bool check =
                                     await authentication.createAnAccount(
                                       email: emailText!,
                                       password: passwordText!,
-                                      name: fullNameText!, newsletter: _isNewsLetterChecked,);
-                                    setState(() {
-                                      _isLoading = check;
+                                      name: fullNameText!,
+                                      newsletter: _isNewsLetterChecked,
+                                    ).whenComplete((){
+                                      setState(() {
+                                        _isLoading = false;
+                                      });
                                     });
-                                  }else{
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                  } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(content: Text('Must agree to the terms and condition in other to register')));
+                                        const SnackBar(
+                                            content: Text(
+                                                'Must agree to the terms and condition in other to register')));
                                   }
                                 } else {
                                   setState(() {
@@ -218,7 +223,6 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                                 }
                               },
                               style: FilledButton.styleFrom(
-
                                   fixedSize: Size.fromWidth(
                                       MediaQuery.of(context).size.width)),
                               child: const Text('Create an account'),
@@ -327,8 +331,9 @@ class _SignUpWithEmailPageState extends State<SignUpWithEmailPage> {
                 ),
               ),
             if (_isLoading)
-                 Center(
-                child: Lottie.asset('assets/animation/pawLoading.json',height: 200,width: 200),
+              Center(
+                child: Lottie.asset('assets/animation/pawLoading.json',
+                    height: 200, width: 200),
               )
           ],
         ),

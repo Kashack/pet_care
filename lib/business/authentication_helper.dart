@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pet_care/presentation/authentication/email_verification_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../presentation/navigation/nav_page.dart';
 
 class Authentication {
@@ -8,7 +10,7 @@ class Authentication {
 
   Authentication(this.context);
 
-  createAnAccount({
+  Future createAnAccount({
     required String email,
     required String password,
     required String name,
@@ -19,18 +21,20 @@ class Authentication {
           .signUp(
         email: email,
         password: password,
-      )
-          .then((value) async {
-        await supabase
-            .from('customerInfo')
-            .insert({'first_name': name, 'email': email});
-
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const NavPage(),
-            ),
-            ModalRoute.withName('/'));
+      ).then((value) async {
+        await supabase.from('userInfo').insert({
+          'id': value.user!.id,
+          'name': name,
+          'email': email,
+          'newsletter': newsletter
+        }).then((value) {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>  VerificationPage(email: email,),
+              ),
+              ModalRoute.withName('/'));
+        });
       });
       // final Session? session = res.session;
       // final User? user = res.user;
@@ -41,7 +45,7 @@ class Authentication {
     return false;
   }
 
-  signIn({required String email, required String password}) async {
+  Future signIn({required String email, required String password}) async {
     try {
       await supabase.auth
           .signInWithPassword(
@@ -56,19 +60,17 @@ class Authentication {
             ),
             ModalRoute.withName('/'));
       });
-      // final Session? session = res.session;
-      // final User? user = res.user;
     } on AuthException catch (e) {
-      if (e.message == "network-request-failed") {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Network error')));
-      } else if (e.message == "email-already-in-use") {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Email already in use')));
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(e.message)));
+      if (e.message == 'Email not confirmed') {
+        return Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => VerificationPage(email: email),
+          ),
+        );
       }
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.message)));
     }
   }
 }

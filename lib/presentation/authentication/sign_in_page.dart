@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pet_care/business/constant/my_colors.dart';
 import 'package:pet_care/presentation/navigation/nav_page.dart';
 import 'package:pet_care/presentation/authentication/registration_page.dart';
 
+import '../../business/authentication_helper.dart';
 import '../component/my_text_field.dart';
 
 class SignInPage extends StatefulWidget {
@@ -12,11 +14,19 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  final _formKey = GlobalKey<FormState>();
   bool isObsecure = true;
-
+  bool _isLoading = false;
   String? emailText;
 
   String? passwordText;
+  late Authentication authentication;
+
+  @override
+  void initState() {
+    super.initState();
+    authentication = Authentication(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,11 +82,13 @@ class _SignInPageState extends State<SignInPage> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16.0, vertical: 20),
                       child: Form(
+                        key: _formKey,
                         child: Column(
                           children: [
-                            const myTextField(
+                             myTextField(
                               label: 'Email',
                               textInputType: TextInputType.emailAddress,
+                                onchanged: (value) => emailText = value
                             ),
                             const SizedBox(
                               height: 16,
@@ -102,7 +114,7 @@ class _SignInPageState extends State<SignInPage> {
                                             () => isObsecure = !isObsecure);
                                       },
                                     ),
-                              onchanged: (value) => passwordText,
+                              onchanged: (value) => passwordText = value,
                             ),
                             Align(
                               alignment: Alignment.centerRight,
@@ -113,14 +125,28 @@ class _SignInPageState extends State<SignInPage> {
                               ),
                             ),
                             FilledButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 FocusScope.of(context).unfocus();
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => NavPage(),
-                                  ),
-                                );
+                                if (_formKey.currentState!.validate()) {
+                                  setState(() {
+                                    _isLoading = true;
+                                  });
+                                      await authentication.signIn(
+                                    email: emailText!,
+                                    password: passwordText!,
+                                      ).whenComplete((){
+                                        setState(() {
+                                          _isLoading = false;
+                                        });
+                                      });
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+                                } else {
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+                                }
                               },
                               child: const Text('Sign In'),
                               style: FilledButton.styleFrom(
@@ -224,6 +250,18 @@ class _SignInPageState extends State<SignInPage> {
                 ],
               ),
             ),
+            if (_isLoading)
+              const Opacity(
+                opacity: 0.8,
+                child: ModalBarrier(
+                  dismissible: false,
+                  color: Colors.black12,
+                ),
+              ),
+            if (_isLoading)
+              Center(
+                child: Lottie.asset('assets/animation/pawLoading.json',height: 200,width: 200),
+              )
           ],
         ),
       ),

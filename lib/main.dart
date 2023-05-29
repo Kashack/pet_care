@@ -20,12 +20,12 @@ Future<void> main() async {
     url: databaseUrl,
     anonKey: databaseAnonKey,
   );
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+   MyApp({super.key});
+  final supabase = Supabase.instance.client;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -39,8 +39,20 @@ class MyApp extends StatelessWidget {
         )
       ),
       home:  initScreen == true || initScreen == null
-          ? WelcomeScreen()
-          : RegistrationPage(),
+          ? const WelcomeScreen()
+          : supabase.auth.currentUser == null ? const RegistrationPage() : const NavPage(),
     );
+  }
+
+  checkIfLogin() async {
+    supabase.auth.currentUser!.id ;
+    // await supabase.auth.onAuthStateChange.listen((data) {
+    //   final AuthChangeEvent event = data.event;
+    //   final Session? session = data.session;
+    //   if (event == AuthChangeEvent.signedIn) {
+    //     return NavPage();
+    //     // handle signIn
+    //   }
+    // });
   }
 }
