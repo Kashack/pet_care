@@ -21,17 +21,21 @@ class Authentication {
           .signUp(
         email: email,
         password: password,
-      ).then((value) async {
+      )
+          .then((value) async {
         await supabase.from('userInfo').insert({
           'id': value.user!.id,
-          'name': name,
+          'first_name': spiltName(name)[0],
+          'last_name': spiltName(name)[1],
           'email': email,
           'newsletter': newsletter
         }).then((value) {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) =>  VerificationPage(email: email,),
+                builder: (context) => VerificationPage(
+                  email: email,
+                ),
               ),
               ModalRoute.withName('/'));
         });
@@ -72,5 +76,15 @@ class Authentication {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.message)));
     }
+  }
+
+  List spiltName(String name) {
+    List names = [];
+    RegExp exp = RegExp('[a-zA-Z\s]+');
+    Iterable<RegExpMatch> matches = exp.allMatches(name);
+    for (final m in matches) {
+      names.add(m[0]);
+    }
+    return names;
   }
 }

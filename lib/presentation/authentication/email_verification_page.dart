@@ -47,7 +47,7 @@ class _VerificationPageState extends State<VerificationPage> {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) =>  NavPage(),
+              builder: (context) => NavPage(),
             ),
             ModalRoute.withName('/'));
       });
@@ -101,8 +101,7 @@ class _VerificationPageState extends State<VerificationPage> {
                   onPressed: () {
                      sendVerificationEmail();
                   },
-                  child: Text('Resend Email')),
-              FilledButton(onPressed: () {}, child: Text('Confirm'))
+                  child: Text('Resend Email'))
             ],
           ),
         ),
