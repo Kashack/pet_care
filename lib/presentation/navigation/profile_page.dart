@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pet_care/business/constant/globals.dart';
 import 'package:pet_care/business/constant/my_colors.dart';
 import 'package:pet_care/presentation/authentication/registration_page.dart';
 import 'package:pet_care/presentation/component/my_profile_tile.dart';
@@ -38,7 +41,7 @@ class ProfilePage extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 50,
-                      child: Placeholder(fallbackHeight: 10, fallbackWidth: 10),
+                      child: Image.asset(Globals.demoImage),
                     ),
                     SizedBox(
                       height: 10,
@@ -58,19 +61,39 @@ class ProfilePage extends StatelessWidget {
                   ],
                 ),
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SingleChildScrollView(
                   child: Column(
                     children: [
                       MyProfileTile(
                         tileText: 'My pets',
-                        leadingIcon: Icon(Icons.access_time),
+                        leadingIcon: SvgPicture.asset(Globals.petIcon),
                         trailingIcon: Icons.arrow_forward_ios,
                       ),
                       MyProfileTile(
                         tileText: 'My favorites',
                         leadingIcon: Icon(Icons.favorite_border,color: MyColors.violet),
+                        trailingIcon: Icons.arrow_forward_ios,
+                      ),
+                      MyProfileTile(
+                        tileText: 'Add pet service',
+                        leadingIcon: SvgPicture.asset(Globals.medicBriefIcon),
+                        trailingIcon: Icons.arrow_forward_ios,
+                      ),
+                      MyProfileTile(
+                        tileText: 'Invite friends',
+                        leadingIcon: SvgPicture.asset(Globals.announcementIcon),
+                        trailingIcon: Icons.arrow_forward_ios,
+                      ),
+                      MyProfileTile(
+                        tileText: 'Help',
+                        leadingIcon: Icon(Icons.help_outline,color: MyColors.violet),
+                        trailingIcon: Icons.arrow_forward_ios,
+                      ),
+                      MyProfileTile(
+                        tileText: 'Settings',
+                        leadingIcon: Icon(Icons.settings,color: MyColors.violet),
                         trailingIcon: Icons.arrow_forward_ios,
                       ),
                     ],

@@ -3,7 +3,7 @@ import 'package:pet_care/business/constant/my_colors.dart';
 
 class MyProfileTile extends StatelessWidget {
   final String tileText;
-  final Icon leadingIcon;
+  final Widget leadingIcon;
   final IconData trailingIcon;
   final Function()? onTap;
 
@@ -20,7 +20,7 @@ class MyProfileTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         child: Row(
           children: [
             CircleAvatar(
