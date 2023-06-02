@@ -5,7 +5,7 @@ import 'package:pet_care/business/constant/my_colors.dart';
 import 'package:pet_care/presentation/navigation/nav_page.dart';
 import 'package:pet_care/presentation/authentication/registration_page.dart';
 
-import '../../business/authentication_helper.dart';
+import '../../business/database/authentication_helper.dart';
 import '../component/my_text_field.dart';
 
 class SignInPage extends StatefulWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pet_care/presentation/authentication/email_verification_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../presentation/navigation/nav_page.dart';
+import '../../presentation/navigation/nav_page.dart';
 
 class Authentication {
   final supabase = Supabase.instance.client;

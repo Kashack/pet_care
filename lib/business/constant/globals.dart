@@ -11,7 +11,11 @@ class Globals {
   static const String dogWalkingIcon = 'assets/icons/dog_walking.svg';
   static const String petTaxiIcon = 'assets/icons/pet_taxi.svg';
   static const String petTrainingIcon = 'assets/icons/training.svg';
+  static const String petIcon = 'assets/icons/pet_icon.svg';
+  static const String medicBriefIcon = 'assets/icons/medic_briefcase_icon.svg';
+  static const String announcementIcon = 'assets/icons/announcement_icon.svg';
 
   //Images
   static const String onboardingImage1 = 'assets/images/onboardingImage1.png';
+  static const String demoImage = 'assets/images/demo_image.png';
 }

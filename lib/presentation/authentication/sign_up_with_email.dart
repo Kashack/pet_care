@@ -5,7 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:pet_care/presentation/component/my_text_field.dart';
 import 'package:pet_care/presentation/authentication/sign_in_page.dart';
 
-import '../../business/authentication_helper.dart';
+import '../../business/database/authentication_helper.dart';
 import '../../business/constant/my_colors.dart';
 
 class SignUpWithEmailPage extends StatefulWidget {
