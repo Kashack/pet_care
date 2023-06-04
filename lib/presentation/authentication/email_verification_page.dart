@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pet_care/business/cubit/is_first_time_cubit.dart';
 import 'package:pet_care/presentation/navigation/home_page.dart';
 import 'package:pet_care/presentation/navigation/nav_page.dart';
 import 'package:pinput/pinput.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class VerificationPage extends StatefulWidget {
@@ -43,7 +46,9 @@ class _VerificationPageState extends State<VerificationPage> {
         token: token,
         type: OtpType.signup,
         email: widget.email,
-      ).then((value) => (value) {
+      ).then((value) => (value) async {
+        SharedPreferences? prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isNewUser', true);
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pet_care/presentation/navigation/home_page.dart';
 import 'package:pet_care/presentation/navigation/nav_page.dart';
 import 'package:pet_care/presentation/authentication/registration_page.dart';
@@ -6,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'business/constant/database_key.dart';
 import 'business/constant/my_colors.dart';
+import 'business/cubit/is_first_time_cubit.dart';
 import 'presentation/onboarding/welcome_page.dart';
 
 bool? initScreen = true;
@@ -20,32 +22,35 @@ Future<void> main() async {
     url: databaseUrl,
     anonKey: databaseAnonKey,
   );
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-   MyApp({super.key});
+  MyApp({super.key});
+
   final supabase = Supabase.instance.client;
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Pet Care',
-
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.light(
-          primary: MyColors.violet
-        )
+    return BlocProvider<IsFirstTimeCubit>(
+      create: (context) => IsFirstTimeCubit(),
+      child: MaterialApp(
+        title: 'Pet Care',
+        debugShowCheckedModeBanner: false,
+        theme:
+            ThemeData(colorScheme: ColorScheme.light(primary: MyColors.violet)),
+        home: initScreen == true || initScreen == null
+            ? const WelcomeScreen()
+            : supabase.auth.currentUser == null
+                ? const RegistrationPage()
+                : const NavPage(),
       ),
-      home:  initScreen == true || initScreen == null
-          ? const WelcomeScreen()
-          : supabase.auth.currentUser == null ? const RegistrationPage() : const NavPage(),
     );
   }
 
   checkIfLogin() async {
-    supabase.auth.currentUser!.id ;
+    supabase.auth.currentUser!.id;
     // await supabase.auth.onAuthStateChange.listen((data) {
     //   final AuthChangeEvent event = data.event;
     //   final Session? session = data.session;

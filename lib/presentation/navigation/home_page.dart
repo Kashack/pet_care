@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pet_care/business/constant/globals.dart';
 import 'package:pet_care/business/constant/my_colors.dart';
+import 'package:pet_care/business/cubit/is_first_time_cubit.dart';
 import 'package:pet_care/presentation/pet_detail.dart';
 import 'package:pet_care/presentation/vet_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   final bool isFirstTime;
@@ -16,14 +18,24 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final String Name = 'Maria';
+  final isFirstTime = IsFirstTimeCubit();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      displayPetDetailDialog(context);
-    });
+    if(checkIfNewUser()){
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        displayPetDetailDialog(context);
+      });
+    }
+  }
+
+  checkIfNewUser () async {
+    SharedPreferences? prefs = await SharedPreferences.getInstance();
+    bool? isNewUser = await prefs.getBool('isNewUser');
+    await prefs.setBool('isNewUser', true);
+    print(isNewUser);
+    return isNewUser;
   }
 
   @override
