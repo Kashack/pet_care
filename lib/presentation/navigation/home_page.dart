@@ -23,19 +23,19 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    if(checkIfNewUser()){
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        displayPetDetailDialog(context);
-      });
-    }
+    checkIfNewUser();
+
   }
 
   checkIfNewUser () async {
     SharedPreferences? prefs = await SharedPreferences.getInstance();
     bool? isNewUser = await prefs.getBool('isNewUser');
     await prefs.setBool('isNewUser', true);
-    print(isNewUser);
-    return isNewUser;
+    if(isNewUser ?? false){
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        displayPetDetailDialog(context);
+      });
+    }
   }
 
   @override

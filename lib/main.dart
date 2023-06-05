@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pet_care/presentation/navigation/home_page.dart';
 import 'package:pet_care/presentation/navigation/nav_page.dart';
 import 'package:pet_care/presentation/authentication/registration_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
