@@ -13,13 +13,14 @@ class RegistrationPage extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: Container(
         decoration: const BoxDecoration(
-            gradient: LinearGradient(begin: Alignment.topCenter, stops: [
-          0.2,
-          0.8
-        ], colors: [
-          Color(0xFF4596EA),
-          Color(0xFF4552CB),
-        ])),
+          gradient: LinearGradient(begin: Alignment.topCenter, stops: [
+            0.2,
+            0.8
+          ], colors: [
+            Color(0xFF4596EA),
+            Color(0xFF4552CB),
+          ]),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(36.0),
           child: Column(
