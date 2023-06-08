@@ -9,7 +9,7 @@ import 'component/custom_toggle.dart';
 class PetDetailPage extends StatefulWidget {
   final bool isFirst;
 
-  PetDetailPage({Key? key, this.isFirst = true}) : super(key: key);
+  PetDetailPage({Key? key, this.isFirst = false}) : super(key: key);
 
   @override
   State<PetDetailPage> createState() => _PetDetailPageState();
@@ -114,25 +114,24 @@ class _PetDetailPageState extends State<PetDetailPage> {
               'General \ninformation',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
-            Text(
-              'Pet\'s name',
-              style: TextStyle(color: MyColors.grey),
-            ),
+
             TextFormField(
               onChanged: (value) {
                 setState(() {
                   petName = value;
                 });
               },
+              decoration: InputDecoration(
+                  label: Text('Pet\'s name',style: TextStyle(color: MyColors.grey),)
+              ),
             ),
             SizedBox(
               height: 10,
             ),
-            Text(
-              'Species of your pet',
-              style: TextStyle(color: MyColors.grey),
-            ),
             DropdownButtonFormField(
+              decoration: InputDecoration(
+                  label: Text('Species of your pet',style: TextStyle(color: MyColors.grey),)
+              ),
               items: petSpecies.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
@@ -152,11 +151,10 @@ class _PetDetailPageState extends State<PetDetailPage> {
             SizedBox(
               height: 10,
             ),
-            Text(
-              'Size (optional)',
-              style: TextStyle(color: MyColors.grey),
-            ),
             TextFormField(
+              decoration: InputDecoration(
+                  label: Text('Size (optional)',style: TextStyle(color: MyColors.grey),)
+              ),
               keyboardType: TextInputType.numberWithOptions(
                   decimal: false, signed: false),
             ),
@@ -224,12 +222,9 @@ class _PetDetailPageState extends State<PetDetailPage> {
                 },
               ).toList(),
             ),
-            Text(
-              'Date of birth',
-              style: TextStyle(color: MyColors.grey),
-            ),
             TextField(
                 decoration: InputDecoration(
+                    label: Text('Date of birth',style: TextStyle(color: MyColors.grey),),
                   suffixIcon: Icon(Icons.calendar_today),
                   hintText: '${DOB.year}/${DOB.month}/${DOB.day}'
                 ),

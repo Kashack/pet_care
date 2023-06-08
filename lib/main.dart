@@ -10,6 +10,7 @@ import 'business/cubit/is_first_time_cubit.dart';
 import 'presentation/onboarding/welcome_page.dart';
 
 bool? initScreen = true;
+bool? isLogin = true;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,31 +33,30 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<IsFirstTimeCubit>(
-      create: (context) => IsFirstTimeCubit(),
-      child: MaterialApp(
+    return  MaterialApp(
         title: 'Pet Care',
         debugShowCheckedModeBanner: false,
         theme:
-            ThemeData(colorScheme: ColorScheme.light(primary: MyColors.violet)),
+        ThemeData(colorScheme: ColorScheme.light(primary: MyColors.violet)),
         home: initScreen == true || initScreen == null
             ? const WelcomeScreen()
             : supabase.auth.currentUser == null
-                ? const RegistrationPage()
-                : const NavPage(),
-      ),
+            ? const RegistrationPage()
+            : const NavPage(),
     );
   }
 
-  checkIfLogin() async {
-    supabase.auth.currentUser!.id;
-    // await supabase.auth.onAuthStateChange.listen((data) {
-    //   final AuthChangeEvent event = data.event;
-    //   final Session? session = data.session;
-    //   if (event == AuthChangeEvent.signedIn) {
-    //     return NavPage();
-    //     // handle signIn
-    //   }
-    // });
+  Widget checkIfLogin(){
+    return StreamBuilder<AuthState>(
+      stream: supabase.auth.onAuthStateChange,
+      builder: (context, snapshot) {
+
+        if (snapshot.hasData) {
+          return NavPage();
+        } else {
+          return RegistrationPage();
+        }
+      },
+    );
   }
 }
